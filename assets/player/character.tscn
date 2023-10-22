@@ -1,0 +1,146 @@
+[gd_scene load_steps=19 format=3 uid="uid://btqapx07nw68u"]
+
+[ext_resource type="Script" path="res://assets/scripts/Character.gd" id="1_xvqns"]
+[ext_resource type="Texture2D" uid="uid://bmnm35tu8vn2v" path="res://assets/textures/fighter/G-Doctor.png.png" id="2_i8vk6"]
+[ext_resource type="Texture2D" uid="uid://1g36aguo45it" path="res://assets/textures/fighter/G-Doctor-walk-1.png" id="3_8n1jb"]
+[ext_resource type="Texture2D" uid="uid://hbt0tw5gba6j" path="res://assets/textures/fighter/G-Doctor_Kick_2.png" id="3_c52xa"]
+[ext_resource type="Texture2D" uid="uid://84etdfdwuqvr" path="res://assets/textures/fighter/Renegade_Punch_2.png" id="3_lvjpb"]
+[ext_resource type="Texture2D" uid="uid://vflrg7leejbu" path="res://assets/textures/fighter/G-Doctor_Kick_1.png" id="4_d8ou8"]
+[ext_resource type="Texture2D" uid="uid://iq01dulguayr" path="res://assets/textures/fighter/G-Doctor_Punch_1.png" id="6_ynqvm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n6d27"]
+atlas = ExtResource("2_i8vk6")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3mfjf"]
+atlas = ExtResource("2_i8vk6")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tane8"]
+atlas = ExtResource("2_i8vk6")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7fve"]
+atlas = ExtResource("2_i8vk6")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtj7a"]
+atlas = ExtResource("3_8n1jb")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0bpgm"]
+atlas = ExtResource("3_8n1jb")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hoysf"]
+atlas = ExtResource("3_8n1jb")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgqr4"]
+atlas = ExtResource("3_8n1jb")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ibrc8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n6d27")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3mfjf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tane8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7fve")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_c52xa")
+}],
+"loop": true,
+"name": &"Kick_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_d8ou8")
+}],
+"loop": true,
+"name": &"Kick_right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_lvjpb")
+}],
+"loop": false,
+"name": &"Punch_Left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ynqvm")
+}],
+"loop": true,
+"name": &"Punch_Right",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wtj7a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0bpgm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hoysf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qgqr4")
+}],
+"loop": true,
+"name": &"Walk",
+"speed": 4.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ien48"]
+radius = 4.0
+height = 8.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_einhk"]
+size = Vector2(11, 17)
+
+[node name="Character" type="CharacterBody2D" groups=["player"]]
+script = ExtResource("1_xvqns")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ibrc8")
+animation = &"Idle"
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 11)
+shape = SubResource("CapsuleShape2D_ien48")
+
+[node name="AttackTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.6
+one_shot = true
+
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(-4, 0)
+metadata/_edit_group_ = true
+
+[node name="Attack" type="Area2D" parent="Marker2D" groups=["attack"]]
+
+[node name="HitBox" type="CollisionShape2D" parent="Marker2D/Attack"]
+position = Vector2(-10, -2)
+shape = SubResource("RectangleShape2D_einhk")
+disabled = true
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_timer_timeout"]

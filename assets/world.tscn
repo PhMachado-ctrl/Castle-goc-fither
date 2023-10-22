@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://g0i805gb5mrg"]
+
+[ext_resource type="Texture2D" uid="uid://qpy87fvrmubd" path="res://assets/textures/fighter/Game-level.png" id="1_vy7na"]
+[ext_resource type="PackedScene" uid="uid://btqapx07nw68u" path="res://assets/player/character.tscn" id="2_nyqm3"]
+[ext_resource type="PackedScene" uid="uid://ci2d307ak5m67" path="res://assets/enemies/skeleton.tscn" id="3_oys1g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hwjm1"]
+size = Vector2(320, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fenqk"]
+size = Vector2(7, 64)
+
+[node name="World" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(167, 83)
+
+[node name="Game-level" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(1, -6)
+scale = Vector2(1.04167, 1.07292)
+texture = ExtResource("1_vy7na")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-7, 29)
+shape = SubResource("RectangleShape2D_hwjm1")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-170.5, 65)
+shape = SubResource("RectangleShape2D_fenqk")
+
+[node name="Character" parent="." instance=ExtResource("2_nyqm3")]
+position = Vector2(89, 144)
+
+[node name="Skeleton" parent="." instance=ExtResource("3_oys1g")]
+position = Vector2(300, 141)

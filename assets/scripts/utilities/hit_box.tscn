@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cg6hft3ymj31f"]
+
+[ext_resource type="Script" path="res://assets/scripts/utilities/hit_box.gd" id="1_crdtq"]
+
+[node name="HitBox" type="Area2D"]
+script = ExtResource("1_crdtq")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+
+[node name="disableHitBoxTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="disableHitBoxTimer" to="." method="_on_disable_hit_box_timer_timeout"]

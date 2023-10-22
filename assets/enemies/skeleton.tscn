@@ -1,0 +1,73 @@
+[gd_scene load_steps=12 format=3 uid="uid://ci2d307ak5m67"]
+
+[ext_resource type="Texture2D" uid="uid://ukjpbfqvkmgt" path="res://assets/textures/fighter/Skeleton-Walk.png" id="1_8upr4"]
+[ext_resource type="Script" path="res://assets/scripts/enemies/skeleton.gd" id="1_ebw6b"]
+[ext_resource type="PackedScene" uid="uid://cg6hft3ymj31f" path="res://assets/scripts/utilities/hit_box.tscn" id="3_ijw8c"]
+[ext_resource type="PackedScene" uid="uid://c8cgjmu0yl51k" path="res://assets/scripts/utilities/hurt_box.tscn" id="4_0pd2h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nnhv6"]
+atlas = ExtResource("1_8upr4")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mo1a6"]
+atlas = ExtResource("1_8upr4")
+region = Rect2(16, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sfv0c"]
+atlas = ExtResource("1_8upr4")
+region = Rect2(32, 0, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47bvi"]
+atlas = ExtResource("1_8upr4")
+region = Rect2(48, 0, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xaj07"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nnhv6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mo1a6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sfv0c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_47bvi")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xksoj"]
+radius = 4.12311
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oekoo"]
+size = Vector2(25, 20)
+
+[node name="Skeleton" type="CharacterBody2D"]
+script = ExtResource("1_ebw6b")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_xaj07")
+animation = &"walk"
+frame_progress = 0.378873
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 9)
+shape = SubResource("CircleShape2D_xksoj")
+
+[node name="HitBox" parent="." instance=ExtResource("3_ijw8c")]
+
+[node name="Collision" parent="HitBox" index="0"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_oekoo")
+
+[node name="disableHitBoxTimer" parent="HitBox" index="1"]
+wait_time = 0.5
+
+[node name="HurtBox" parent="." instance=ExtResource("4_0pd2h")]
+
+[editable path="HitBox"]
